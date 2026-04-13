@@ -1,0 +1,6 @@
+streamlit
+pymupdf
+groq
+gtts
+streamlit-webrtc
+python-dotenv
