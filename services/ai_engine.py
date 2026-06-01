@@ -19,7 +19,7 @@ MODEL = "llama-3.3-70b-versatile"  # ✅ single place
 # ✅ FIXED: clean questions output
 def generate_questions(text):
     prompt = f"""
-    Read the resume below and generate exactly 8 simple  interview questions.
+    Read the resume below and generate exactly 50 simple  interview questions.
 
     Rules:
     - Each question must be ONLY ONE LINE
