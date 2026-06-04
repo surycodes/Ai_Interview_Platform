@@ -2,13 +2,16 @@ import os
 from groq import Groq
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
+# Get API key
 api_key = os.getenv("GROQ_API_KEY")
 
 if not api_key:
     raise ValueError("GROQ_API_KEY is not set. Check your .env file")
 
+# Initialize Groq client
 client = Groq(api_key=api_key)
 
 MODEL = "llama-3.3-70b-versatile"
@@ -35,35 +38,38 @@ Resume:
 {text}
 """
 
-    res = client.chat.completions.create(
+    response = client.chat.completions.create(
         model=MODEL,
         messages=[
-            {"role": "user", "content": prompt}
+            {
+                "role": "user",
+                "content": prompt
+            }
         ]
     )
 
-    content = res.choices[0].message.content
+    content = response.choices[0].message.content
 
     questions = []
 
     for line in content.split("\n"):
         line = line.strip()
 
-        if line and len(line) > 5:
+        if line:
             questions.append(line)
 
     return questions[:50]
 
 
-def evaluate_answer(q, a):
+def evaluate_answer(question, answer):
     prompt = f"""
 Evaluate the candidate's answer.
 
 Question:
-{q}
+{question}
 
 Answer:
-{a}
+{answer}
 
 Provide:
 
@@ -76,20 +82,14 @@ Ideal Answer:
 <1-2 lines>
 """
 
-    res = client.chat.completions.create(
+    response = client.chat.completions.create(
         model=MODEL,
         messages=[
-            {"role": "user", "content": prompt}
+            {
+                "role": "user",
+                "content": prompt
+            }
         ]
     )
 
-    return res.choices[0].message.content
-:::
-
-### Important
-Delete the old file completely and paste the above code.
-
-After saving, run:
-
-```bash
-python -m py_compile services/ai_engine.py
+    return response.choices[0].message.content
