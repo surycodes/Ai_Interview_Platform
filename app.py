@@ -14,8 +14,8 @@ from components.report import report_screen
 # --------------------------------------------------
 st.set_page_config(
     page_title="AI Interview Assistant",
-    page_icon="🤖",
-    layout="wide"
+    page_icon="🎯",
+    layout="centered"
 )
 
 # --------------------------------------------------
@@ -25,59 +25,56 @@ st.markdown("""
 <style>
 
 .stApp {
-    background: linear-gradient(135deg, #0f172a, #1e293b);
-    color: white;
+    background-color: #f8fafc;
 }
 
 .main-title {
     text-align: center;
-    font-size: 50px;
+    font-size: 42px;
     font-weight: 700;
-    color: #38bdf8;
+    color: #1e3a8a;
     margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 .sub-title {
     text-align: center;
-    font-size: 18px;
-    color: #cbd5e1;
+    font-size: 16px;
+    color: #64748b;
     margin-bottom: 25px;
 }
 
 .card {
-    background: rgba(255,255,255,0.08);
-    padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 20px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e2e8f0;
+    margin-top: 15px;
 }
 
 .stButton > button {
-    width: 100%;
-    border-radius: 12px;
-    height: 50px;
-    background: linear-gradient(90deg,#2563eb,#06b6d4);
+    background: #2563eb;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
     border: none;
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    width: auto;
+    min-width: 120px;
+    height: 38px;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .stButton > button:hover {
-    transform: scale(1.02);
-    transition: 0.3s;
-}
-
-[data-testid="stSidebar"] {
-    background-color: #111827;
+    background: #1d4ed8;
 }
 
 .footer {
-    text-align:center;
-    color:#94a3b8;
-    margin-top:40px;
-    font-size:14px;
+    text-align: center;
+    color: #94a3b8;
+    margin-top: 40px;
+    font-size: 13px;
 }
 
 </style>
@@ -92,47 +89,29 @@ init_session()
 # HEADER
 # --------------------------------------------------
 st.markdown(
-    '<div class="main-title">🤖 AI Interview Assistant</div>',
+    '<div class="main-title">AI Interview Assistant</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="sub-title">Upload Resume • Practice Interview • Get AI Feedback</div>',
+    '<div class="sub-title">Practice Interviews with AI-Powered Resume Analysis</div>',
     unsafe_allow_html=True
 )
-
-# --------------------------------------------------
-# SIDEBAR
-# --------------------------------------------------
-with st.sidebar:
-    st.title("📋 Dashboard")
-
-    if st.session_state.step == "upload":
-        st.success("Current Step")
-        st.write("📄 Resume Upload")
-
-    elif st.session_state.step == "interview":
-        st.success("Current Step")
-        st.write("🎤 AI Interview")
-
-    else:
-        st.success("Current Step")
-        st.write("📊 Interview Report")
 
 # --------------------------------------------------
 # PROGRESS BAR
 # --------------------------------------------------
 if st.session_state.step == "upload":
     st.progress(33)
-    st.caption("Step 1 of 3 - Upload Resume")
+    st.caption("Step 1 of 3 • Upload Resume")
 
 elif st.session_state.step == "interview":
     st.progress(66)
-    st.caption("Step 2 of 3 - AI Interview")
+    st.caption("Step 2 of 3 • Interview Round")
 
 else:
     st.progress(100)
-    st.caption("Step 3 of 3 - Final Report")
+    st.caption("Step 3 of 3 • Performance Report")
 
 # --------------------------------------------------
 # CONTENT AREA
@@ -156,7 +135,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown(
     """
     <div class="footer">
-        🚀 Powered by AI • Resume Analysis • Interview Preparation
+        Powered by AI • Resume Analysis • Interview Preparation
     </div>
     """,
     unsafe_allow_html=True
