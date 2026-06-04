@@ -6,8 +6,8 @@ load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
     raise ValueError("GROQ_API_KEY is not set. Check your .env file")
-    client = Groq(api_key=api_key)
-    MODEL = "llama-3.3-70b-versatile"
+client = Groq(api_key=api_key)
+MODEL = "llama-3.3-70b-versatile"
 def generate_questions(text):
     prompt = f"""
         You are an experienced interviewer.
