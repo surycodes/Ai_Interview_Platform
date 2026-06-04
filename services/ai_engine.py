@@ -6,83 +6,84 @@ load_dotenv()
 
 api_key = os.getenv("GROQ_API_KEY")
 
-print("API KEY:", api_key)
-
 if not api_key:
-    raise ValueError("GROQ_API_KEY is not set. Check your .env file")
+raise ValueError("GROQ_API_KEY is not set. Check your .env file")
 
 client = Groq(api_key=api_key)
 
-MODEL = "llama-3.3-70b-versatile"  # ✅ single place
+MODEL = "llama-3.3-70b-versatile"
 
-
-# ✅ FIXED: clean questions output
 def generate_questions(text):
-prompt = f"""
+    prompt = f"""
 You are an experienced interviewer.
-
-Analyze the complete resume below and generate exactly 50 interview questions with answers.
-
+Carefully analyze the complete resume below.
+Generate exactly 50 interview questions.
 Rules:
-
 * Questions must be based on the resume.
 * Cover Skills, Projects, Experience, Education, Certifications, and Technologies.
 * Use simple and beginner-friendly language.
-* The answer should be short, clear, and easy to understand.
-* Avoid complex technical jargon unless mentioned in the resume.
-* Format:
-
-Q1: Question
-A1: Answer
-
-Q2: Question
-A2: Answer
-
-Continue until 50 questions and answers.
+* Keep each question on a single line.
+* Do not provide answers.
+* Do not provide explanations.
+* Return only the questions.
 
 Resume:
 {text}
 """
 
+```
+res = client.chat.completions.create(
+    model=MODEL,
+    messages=[
+        {"role": "user", "content": prompt}
+    ]
+)
 
-    res = client.chat.completions.create(
-        model=MODEL,
-        messages=[{"role": "user", "content": prompt}]
-    )
+content = res.choices[0].message.content
 
-    content = res.choices[0].message.content
+questions = []
 
-    # ✅ Extract only valid questions
-    questions = []
-    for line in content.split("\n"):
-        line = line.strip()
-        if line and line[0].isdigit():
-            questions.append(line)
+for line in content.split("\n"):
+    line = line.strip()
 
-    return questions
+    if (
+        line
+        and not line.lower().startswith("resume")
+        and len(line) > 5
+    ):
+        questions.append(line)
 
+return questions[:50]
+```
 
-# ✅ Slightly improved evaluation formatting
 def evaluate_answer(q, a):
-    prompt = f"""
-    Evaluate the answer.
+prompt = f"""
+Evaluate the candidate's answer.
 
-    Question: {q}
-    Answer: {a}
+Question:
+{q}
 
-    Provide:
-    Score: <score>
+Answer:
+{a}
 
-    Feedback:
-    <feedback in 1-2 lines>
+Provide:
 
-    Ideal Answer:
-    <ideal answer in 1-2 lines>
-    """
+Score: <score out of 10>
 
-    res = client.chat.completions.create(
-        model=MODEL,
-        messages=[{"role": "user", "content": prompt}]
-    )
+Feedback:
+<1-2 lines>
 
-    return res.choices[0].message.content
+Ideal Answer:
+<1-2 lines>
+"""
+
+```
+res = client.chat.completions.create(
+    model=MODEL,
+    messages=[
+        {"role": "user", "content": prompt}
+    ]
+)
+
+return res.choices[0].message.content
+```
