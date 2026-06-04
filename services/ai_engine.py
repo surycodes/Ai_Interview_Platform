@@ -1,52 +1,59 @@
 import os
 from groq import Groq
 from dotenv import load_dotenv
+
 load_dotenv()
 
 api_key = os.getenv("GROQ_API_KEY")
+
 if not api_key:
     raise ValueError("GROQ_API_KEY is not set. Check your .env file")
+
 client = Groq(api_key=api_key)
+
 MODEL = "llama-3.3-70b-versatile"
+
+
 def generate_questions(text):
     prompt = f"""
-        You are an experienced interviewer.
-        Carefully analyze the complete resume below.
-        Generate exactly 50 interview questions.
-    
-        Rules:
-        
-        * Questions must be based on the resume.
-        * Cover Skills, Projects, Experience, Education, Certifications, and Technologies.
-        * Use simple and beginner-friendly language.
-        * Keep each question on a single line.
-        * Do not provide answers.
-        * Do not provide explanations.
-        * Return only the questions.
-        Resume:
-   {text}
-    """
+You are an experienced interviewer.
 
-```
-res = client.chat.completions.create(
-    model=MODEL,
-    messages=[
-        {"role": "user", "content": prompt}
-    ]
-)
+Carefully analyze the complete resume below.
 
-content = res.choices[0].message.content
+Generate exactly 50 interview questions.
 
-questions = []
+Rules:
+- Questions must be based on the resume.
+- Cover Skills, Projects, Experience, Education, Certifications, and Technologies.
+- Use simple and beginner-friendly language.
+- Keep each question on a single line.
+- Do not provide answers.
+- Do not provide explanations.
+- Return only the questions.
 
-for line in content.split("\n"):
-    line = line.strip()
+Resume:
+{text}
+"""
 
-    if line and len(line) > 5:
-        questions.append(line)
+    res = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-return questions[:50]
-```
+    content = res.choices[0].message.content
+
+    questions = []
+
+    for line in content.split("\n"):
+        line = line.strip()
+
+        if line and len(line) > 5:
+            questions.append(line)
+
+    return questions[:50]
+
 
 def evaluate_answer(q, a):
     prompt = f"""
@@ -69,13 +76,20 @@ Ideal Answer:
 <1-2 lines>
 """
 
-```
-res = client.chat.completions.create(
-    model=MODEL,
-    messages=[
-        {"role": "user", "content": prompt}
-    ]
-)
+    res = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-return res.choices[0].message.content
-```
+    return res.choices[0].message.content
+:::
+
+### Important
+Delete the old file completely and paste the above code.
+
+After saving, run:
+
+```bash
+python -m py_compile services/ai_engine.py
