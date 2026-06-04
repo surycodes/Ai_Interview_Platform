@@ -23,8 +23,12 @@ init_session()
 st.markdown(
     """
     <h1 style='text-align:center;'>
-        <span style='color:red;'>🤖</span> AI Interview Bot
+        <span style='color:white;'>🤖</span>
+        <span style='color:#dc2626;'>AI Interview Bot</span>
     </h1>
+    <p style='text-align:center; color:gray;'>
+        Upload your resume and chat with your AI interviewer
+    </p>
     """,
     unsafe_allow_html=True
 )
