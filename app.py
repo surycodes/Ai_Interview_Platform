@@ -10,59 +10,52 @@ from components.interview import interview_screen
 from components.report import report_screen
 
 # Page Configuration
-
 st.set_page_config(
-page_title="AI Interview Bot",
-page_icon="🤖",
-layout="centered"
+    page_title="AI Interview Bot",
+    page_icon="🤖",
+    layout="centered"
 )
 
 # Initialize Session
-
 init_session()
 
 # Header
-
 st.markdown(
-""" <h1 style='text-align:center;'>🤖 AI Interview Bot</h1> <p style='text-align:center; color:gray;'>
-Upload your resume and chat with your AI interviewer </p>
-""",
-unsafe_allow_html=True
+    """
+    <h1 style='text-align:center;'>🤖 AI Interview Bot</h1>
+    <p style='text-align:center; color:gray;'>
+        Upload your resume and chat with your AI interviewer
+    </p>
+    """,
+    unsafe_allow_html=True
 )
 
 st.divider()
 
 # Navigation
-
 if st.session_state.step == "upload":
 
-```
-with st.chat_message("assistant"):
-    st.write(
-        "👋 Hi! Upload your resume and I'll generate interview questions based on your profile."
-    )
+    with st.chat_message("assistant"):
+        st.write(
+            "👋 Hi! Upload your resume and I'll generate interview questions based on your profile."
+        )
 
-upload_screen()
-```
+    upload_screen()
 
 elif st.session_state.step == "interview":
 
-```
-with st.chat_message("assistant"):
-    st.write(
-        "🎤 Welcome to the interview round. Let's begin!"
-    )
+    with st.chat_message("assistant"):
+        st.write(
+            "🎤 Welcome to the interview round. Let's begin!"
+        )
 
-interview_screen()
-```
+    interview_screen()
 
 else:
 
-```
-with st.chat_message("assistant"):
-    st.write(
-        "📊 Interview completed. Here is your performance report."
-    )
+    with st.chat_message("assistant"):
+        st.write(
+            "📊 Interview completed. Here is your performance report."
+        )
 
-report_screen()
-```
+    report_screen()
