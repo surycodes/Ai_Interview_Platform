@@ -22,10 +22,9 @@ init_session()
 # Header
 st.markdown(
     """
-    <h1 style='text-align:center;'>🤖 AI Interview Bot</h1>
-    <p style='text-align:center; color:gray;'>
-        Upload your resume and chat with your AI interviewer
-    </p>
+    <h1 style='text-align:center;'>
+        <span style='color:red;'>🤖</span> AI Interview Bot
+    </h1>
     """,
     unsafe_allow_html=True
 )
