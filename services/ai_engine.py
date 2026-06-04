@@ -18,18 +18,32 @@ MODEL = "llama-3.3-70b-versatile"  # ✅ single place
 
 # ✅ FIXED: clean questions output
 def generate_questions(text):
-    prompt = f"""
-    Read the resume below and generate exactly 50 simple  interview questions.
+prompt = f"""
+You are an experienced interviewer.
 
-    Rules:
-    - Each question must be ONLY ONE LINE
-    - Keep questions simple and clear
-    - Focus on Technical Skills,Soft Skills,Experience,Projects,Education,Certifications
-    - Do NOT give explanations
+Analyze the complete resume below and generate exactly 50 interview questions with answers.
 
-    Resume:
-    {text}
-    """
+Rules:
+
+* Questions must be based on the resume.
+* Cover Skills, Projects, Experience, Education, Certifications, and Technologies.
+* Use simple and beginner-friendly language.
+* The answer should be short, clear, and easy to understand.
+* Avoid complex technical jargon unless mentioned in the resume.
+* Format:
+
+Q1: Question
+A1: Answer
+
+Q2: Question
+A2: Answer
+
+Continue until 50 questions and answers.
+
+Resume:
+{text}
+"""
+
 
     res = client.chat.completions.create(
         model=MODEL,
